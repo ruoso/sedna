@@ -75,6 +75,14 @@ sub AUTOLOAD {
 require XSLoader;
 XSLoader::load('Sedna', $VERSION);
 
+sub setConnectionAttr {
+  my ($self, %params) = @_;
+  for (keys %params) {
+    my $meth = 'setConnectionAttr_'.$_;
+    $self->$meth($params{$_});
+  }
+}
+
 
 1;
 __END__

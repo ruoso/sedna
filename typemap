@@ -1,5 +1,5 @@
 TYPEMAP
-struct SednaConnection*		SEDNA_CONN
+SednaConnection*		SEDNA_CONN
 
 OUTPUT
 
