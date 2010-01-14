@@ -267,3 +267,63 @@ sedna_xs_transactionStatus(conn)
          RETVAL = SEtransactionStatus(conn);
      OUTPUT:
          RETVAL
+
+void
+sedna_xs_execute(conn, query)
+     SednaConnection* conn
+     char* query
+     CODE:
+         int ret = SEexecute(conn, query);
+         if (ret != SEDNA_QUERY_SUCCEEDED &&
+             ret != SEDNA_UPDATE_SUCCEEDED &&
+             ret != SEDNA_BULK_LOAD_SUCCEEDED) {
+            if (ret == SEDNA_QUERY_FAILED) {
+              croak("SEDNA_QUERY_FAILED: %s", SEgetLastErrorMsg(conn));
+            } else if (ret == SEDNA_UPDATE_FAILED) {
+              croak("SEDNA_UPDATE_FAILED: %s", SEgetLastErrorMsg(conn));
+            } else if (ret == SEDNA_BULK_LOAD_FAILED) {
+              croak("SEDNA_BULK_LOAD_FAILED: %s", SEgetLastErrorMsg(conn));
+            } else {
+              croak("error at SEexecute: %s", SEgetLastErrorMsg(conn));
+            }
+         }
+
+
+void
+sedna_xs_executeLong(conn, file)
+     SednaConnection* conn
+     char* file
+     CODE:
+         int ret = SEexecuteLong(conn, file);
+         if (ret != SEDNA_QUERY_SUCCEEDED &&
+             ret != SEDNA_UPDATE_SUCCEEDED &&
+             ret != SEDNA_BULK_LOAD_SUCCEEDED) {
+            if (ret == SEDNA_QUERY_FAILED) {
+              croak("SEDNA_QUERY_FAILED: %s", SEgetLastErrorMsg(conn));
+            } else if (ret == SEDNA_UPDATE_FAILED) {
+              croak("SEDNA_UPDATE_FAILED: %s", SEgetLastErrorMsg(conn));
+            } else if (ret == SEDNA_BULK_LOAD_FAILED) {
+              croak("SEDNA_BULK_LOAD_FAILED: %s", SEgetLastErrorMsg(conn));
+            } else {
+              croak("error at SEexecuteLong: %s", SEgetLastErrorMsg(conn));
+            }
+         }
+
+int
+sedna_xs_next(conn)
+     SednaConnection* conn
+     CODE:
+         int ret = SEnext(conn);
+         if (ret == SEDNA_NEXT_ITEM_SUCCEEDED) {
+           RETVAL = 1;
+         } else if (ret == SEDNA_RESULT_END) {
+           RETVAL = 0;
+         } else if (ret == SEDNA_NEXT_ITEM_FAILED) {
+           croak("SEDNA_NEXT_ITEM_FAILED: %s", SEgetLastErrorMsg(conn));
+         } else if (ret == SEDNA_NO_ITEM) {
+           croak("SEDNA_NO_ITEM: %s", SEgetLastErrorMsg(conn));
+         } else {
+           croak("error at SEnext: %s", SEgetLastErrorMsg(conn));
+         }
+     OUTPUT:
+         RETVAL
