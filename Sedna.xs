@@ -335,6 +335,11 @@ sedna_xs_getData(conn, svbuff, reqlen)
      int reqlen
      CODE:
          char* buff = SvGROW(svbuff, reqlen+10);
-         RETVAL = SEgetData(conn, buff, reqlen);
+         int ret = SEgetData(conn, buff, reqlen);
+         if (ret < 0) {
+           croak("error at SEgetData: %s", SEgetLastErrorMsg(conn));
+         } else {
+           RETVAL = ret;
+         }
      OUTPUT:
          RETVAL
