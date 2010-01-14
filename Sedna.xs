@@ -343,3 +343,30 @@ sedna_xs_getData(conn, svbuff, reqlen)
          }
      OUTPUT:
          RETVAL
+
+void
+sedna_xs_loadData(conn, svbuff, docname, colname)
+     SednaConnection* conn
+     SV* svbuff
+     char* docname
+     char* colname
+     CODE:
+         int svlen;
+         char* buff = SvPV(svbuff, svlen);
+         int ret = SEloadData(conn, buff, svlen, docname, colname);
+         if (ret != SEDNA_DATA_CHUNK_LOADED) {
+           croak("error at SEloadData: %s", SEgetLastErrorMsg(conn));
+         }
+
+void
+sedna_xs_endLoadData(conn)
+     SednaConnection* conn
+     CODE:
+         int ret = SEendLoadData(conn);
+         if (ret != SEDNA_BULK_LOAD_SUCCEEDED) {
+           if (ret == SEDNA_BULK_LOAD_FAILED) {
+             croak("SEDNA_BULK_LOAD_FAILED: %s", SEgetLastErrorMsg(conn));
+           } else {
+             croak("error at SEloadData: %s", SEgetLastErrorMsg(conn));
+           }
+         }
