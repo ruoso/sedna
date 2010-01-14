@@ -53,47 +53,6 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-our @EXPORT = qw(
-	BULK_LOAD_PORTION
-	QUERY_EXECUTION_TIME
-	SEDNA_AUTHENTICATION_FAILED
-	SEDNA_AUTOCOMMIT_OFF
-	SEDNA_AUTOCOMMIT_ON
-	SEDNA_BEGIN_TRANSACTION_FAILED
-	SEDNA_BEGIN_TRANSACTION_SUCCEEDED
-	SEDNA_BOUNDARY_SPACE_PRESERVE_OFF
-	SEDNA_BOUNDARY_SPACE_PRESERVE_ON
-	SEDNA_BULK_LOAD_FAILED
-	SEDNA_BULK_LOAD_SUCCEEDED
-	SEDNA_CLOSE_SESSION_FAILED
-	SEDNA_COMMIT_TRANSACTION_FAILED
-	SEDNA_COMMIT_TRANSACTION_SUCCEEDED
-	SEDNA_CONNECTION_CLOSED
-	SEDNA_CONNECTION_FAILED
-	SEDNA_CONNECTION_OK
-	SEDNA_DATA_CHUNK_LOADED
-	SEDNA_ERROR
-	SEDNA_GET_ATTRIBUTE_SUCCEEDED
-	SEDNA_NEXT_ITEM_FAILED
-	SEDNA_NEXT_ITEM_SUCCEEDED
-	SEDNA_NO_ITEM
-	SEDNA_NO_TRANSACTION
-	SEDNA_OPEN_SESSION_FAILED
-	SEDNA_OPERATION_SUCCEEDED
-	SEDNA_QUERY_FAILED
-	SEDNA_QUERY_SUCCEEDED
-	SEDNA_RESET_ATTRIBUTES_SUCCEEDED
-	SEDNA_RESULT_END
-	SEDNA_ROLLBACK_TRANSACTION_FAILED
-	SEDNA_ROLLBACK_TRANSACTION_SUCCEEDED
-	SEDNA_SESSION_CLOSED
-	SEDNA_SESSION_OPEN
-	SEDNA_SET_ATTRIBUTE_SUCCEEDED
-	SEDNA_TRANSACTION_ACTIVE
-	SEDNA_UPDATE_FAILED
-	SEDNA_UPDATE_SUCCEEDED
-);
-
 our $VERSION = '0.01';
 
 sub AUTOLOAD {
@@ -108,13 +67,7 @@ sub AUTOLOAD {
     if ($error) { croak $error; }
     {
 	no strict 'refs';
-	# Fixed between 5.005_53 and 5.005_61
-#XXX	if ($] >= 5.00561) {
-#XXX	    *$AUTOLOAD = sub () { $val };
-#XXX	}
-#XXX	else {
-	    *$AUTOLOAD = sub { $val };
-#XXX	}
+        *$AUTOLOAD = sub { $val };
     }
     goto &$AUTOLOAD;
 }
@@ -122,9 +75,6 @@ sub AUTOLOAD {
 require XSLoader;
 XSLoader::load('Sedna', $VERSION);
 
-# Preloaded methods go here.
-
-# Autoload methods go after =cut, and are processed by the autosplit program.
 
 1;
 __END__
@@ -137,19 +87,6 @@ Sedna - Perl extension for Sedna C driver
 =head1 SYNOPSIS
 
   use Sedna;
-  blah blah blah
-
-=head1 DESCRIPTION
-
-Stub documentation for Sedna, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
-
-=head2 EXPORT
-
-None by default.
 
 =head2 Exportable constants
 
