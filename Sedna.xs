@@ -19,17 +19,18 @@ sedna_xs_connect(url, db_name, login, password)
      char* login
      char* password
      CODE:
-         struct SednaConnection* ret = malloc(sizeof(struct SednaConnection));
-         if (SEconnect(ret, url, db_name, login, password) == SEDNA_SESSION_OPEN) {
-            RETVAL = ret;
+         struct SednaConnection* conn = malloc(sizeof(struct SednaConnection));
+         int ret = SEconnect(conn, url, db_name, login, password);
+         if (ret == SEDNA_SESSION_OPEN) {
+            RETVAL = conn;
          } else if (ret == SEDNA_AUTHENTICATION_FAILED) {
-            croak("SEDNA_AUTHENTICATION_FAILED");
+            croak("SEDNA_AUTHENTICATION_FAILED: %s", SEgetLastErrorMsg(conn));
          } else if (ret == SEDNA_OPEN_SESSION_FAILED) {
-            croak("SEDNA_OPEN_SESSION_FAILED");
+            croak("SEDNA_OPEN_SESSION_FAILED: %s", SEgetLastErrorMsg(conn));
          } else if (ret == SEDNA_ERROR) {
-            croak("SEDNA_ERROR");
+            croak("SEDNA_ERROR: %s", SEgetLastErrorMsg(conn));
          } else {
-            croak("unknown error at SEconnect");
+            croak("unknown error at SEconnect: %s", SEgetLastErrorMsg(conn));
          }
      OUTPUT:
          RETVAL

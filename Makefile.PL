@@ -8,8 +8,8 @@ WriteMakefile(
     PREREQ_PM         => {}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Sedna.pm', # retrieve abstract from module
-       AUTHOR         => 'Daniel Ruoso <ruoso@>') : ()),
-    LIBS              => [''], # e.g., '-lm'
+       AUTHOR         => 'Daniel Ruoso <daniel@ruoso.com>') : ()),
+    LIBS              => ['-L/usr/lib/sedna/driver/c -lsedna'], # e.g., '-lm'
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
     INC               => '-I. -I/usr/lib/sedna/driver/c' # e.g., '-I. -I/usr/include/other'
 	# Un-comment this if you add C files to link with later:
