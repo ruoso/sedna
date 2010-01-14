@@ -83,6 +83,14 @@ sub setConnectionAttr {
   }
 }
 
+sub getConectionAttr {
+  my ($self, @params) = @_;
+  return map {
+    my $meth = 'setConnectionAttr_'.$_;
+    $_ => $self->$meth($_);
+  } @params;
+}
+
 
 1;
 __END__

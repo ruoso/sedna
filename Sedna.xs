@@ -111,3 +111,104 @@ sedna_xs_setConnectionAttr_LOG_AMMOUNT(conn, ammount)
            croak("error at SEsetConnectionAttr: %s", SEgetLastErrorMsg(conn));
          }
 
+
+int
+sedna_xs_getConnectionAttr_AUTOCOMMIT(conn)
+     SednaConnection* conn
+     CODE:
+         int onoff = 0;
+         int rsize = 0;
+         int ret = SEgetConnectionAttr(conn, SEDNA_ATTR_AUTOCOMMIT, &onoff, &rsize);
+         if (ret != SEDNA_GET_ATTRIBUTE_SUCCEEDED) {
+           croak("error at SEgetConnectionAttr: %s", SEgetLastErrorMsg(conn));
+         }
+         RETVAL = onoff;
+     OUTPUT:
+         RETVAL
+
+char*
+sedna_xs_getConnectionAttr_SESSION_DIRECTORY(conn)
+     SednaConnection* conn
+     CODE:
+         char* dir = NULL;
+         int rsize = 0;
+         int ret = SEgetConnectionAttr(conn, SEDNA_ATTR_SESSION_DIRECTORY, &dir, &rsize);
+         if (ret != SEDNA_GET_ATTRIBUTE_SUCCEEDED) {
+           croak("error at SEgetConnectionAttr: %s", SEgetLastErrorMsg(conn));
+         }
+         RETVAL = dir;
+     OUTPUT:
+         RETVAL
+
+int
+sedna_xs_getConnectionAttr_DEBUG(conn)
+     SednaConnection* conn
+     CODE:
+         int onoff = 0;
+         int rsize = 0;
+         int ret = SEgetConnectionAttr(conn, SEDNA_ATTR_DEBUG, &onoff, &rsize);
+         if (ret != SEDNA_GET_ATTRIBUTE_SUCCEEDED) {
+           croak("error at SEgetConnectionAttr: %s", SEgetLastErrorMsg(conn));
+         }
+         RETVAL = onoff;
+     OUTPUT:
+         RETVAL
+
+int
+sedna_xs_getConnectionAttr_CONCURRENCY_TYPE(conn)
+     SednaConnection* conn
+     CODE:
+         int type = 0;
+         int rsize = 0;
+         int ret = SEgetConnectionAttr(conn, SEDNA_ATTR_CONCURRENCY_TYPE, &type, &rsize);
+         if (ret != SEDNA_GET_ATTRIBUTE_SUCCEEDED) {
+           croak("error at SEgetConnectionAttr: %s", SEgetLastErrorMsg(conn));
+         }
+         RETVAL = type;
+     OUTPUT:
+         RETVAL
+         
+
+int
+sedna_xs_getConnectionAttr_QUERY_EXEC_TIMEOUT(conn)
+     SednaConnection* conn
+     CODE:
+         int timeout = 0;
+         int rsize = 0;
+         int ret = SEgetConnectionAttr(conn, SEDNA_ATTR_QUERY_EXEC_TIMEOUT, &timeout, &rsize);
+         if (ret != SEDNA_GET_ATTRIBUTE_SUCCEEDED) {
+           croak("error at SEgetConnectionAttr: %s", SEgetLastErrorMsg(conn));
+         }
+         RETVAL = timeout;
+     OUTPUT:
+         RETVAL
+
+
+int
+sedna_xs_getConnectionAttr_MAX_RESULT_SIZE(conn)
+     SednaConnection* conn
+     CODE:
+         int size = 0;
+         int rsize = 0;
+         int ret = SEgetConnectionAttr(conn, SEDNA_ATTR_MAX_RESULT_SIZE, &size, &rsize);
+         if (ret != SEDNA_GET_ATTRIBUTE_SUCCEEDED) {
+           croak("error at SEsetConnectionAttr: %s", SEgetLastErrorMsg(conn));
+         }
+         RETVAL = size;
+     OUTPUT:
+         RETVAL
+
+
+int
+sedna_xs_getConnectionAttr_LOG_AMMOUNT(conn)
+     SednaConnection* conn
+     CODE: 
+         int ammount = 0;
+         int rsize = 0;
+         int ret = SEgetConnectionAttr(conn, SEDNA_ATTR_MAX_RESULT_SIZE, &ammount, &rsize);
+         if (ret != SEDNA_GET_ATTRIBUTE_SUCCEEDED) {
+           croak("error at SEsetConnectionAttr: %s", SEgetLastErrorMsg(conn));
+         }
+         RETVAL = ammount;
+     OUTPUT:
+         RETVAL
