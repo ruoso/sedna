@@ -16,7 +16,8 @@ INCLUDE: const-xs.inc
 
 
 SednaConnection*
-sedna_xs_connect(url, db_name, login, password)
+sedna_xs_connect(class, url, db_name, login, password)
+     char* class
      char* url
      char* db_name
      char* login
