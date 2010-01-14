@@ -4,7 +4,7 @@ struct SednaConnection*		SEDNA_CONN
 OUTPUT
 
 SEDNA_CONN
-	sv_setref_pv( $arg, CLASS, (void*)$var );
+	sv_setref_pv( $arg, "Sedna", (void*)$var );
 
 
 INPUT
