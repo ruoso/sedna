@@ -327,3 +327,14 @@ sedna_xs_next(conn)
          }
      OUTPUT:
          RETVAL
+
+int
+sedna_xs_getData(conn, svbuff, reqlen)
+     SednaConnection* conn
+     SV* svbuff
+     int reqlen
+     CODE:
+         char* buff = SvGROW(svbuff, reqlen+10);
+         RETVAL = SEgetData(conn, buff, reqlen);
+     OUTPUT:
+         RETVAL
