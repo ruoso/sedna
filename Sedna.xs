@@ -212,3 +212,58 @@ sedna_xs_getConnectionAttr_LOG_AMMOUNT(conn)
          RETVAL = ammount;
      OUTPUT:
          RETVAL
+
+void
+sedna_xs_begin(conn)
+     SednaConnection* conn
+     CODE:
+         int ret = SEbegin(conn);
+         if (ret != SEDNA_BEGIN_TRANSACTION_SUCCEEDED) {
+           if (ret == SEDNA_BEGIN_TRANSACTION_FAILED) {
+             croak("SEDNA_BEGIN_TRANSACTION_FAILED: %s", SEgetLastErrorMsg(conn));
+           } else {
+             croak("error at SEbegin: %s", SEgetLastErrorMsg(conn));
+           }
+         }
+
+void
+sedna_xs_commit(conn)
+     SednaConnection* conn
+     CODE:
+         int ret = SEcommit(conn);
+         if (ret != SEDNA_COMMIT_TRANSACTION_SUCCEEDED) {
+           if (ret == SEDNA_COMMIT_TRANSACTION_FAILED) {
+             croak("SEDNA_COMMIT_TRANSACTION_FAILED: %s", SEgetLastErrorMsg(conn));
+           } else {
+             croak("error at SEcommit: %s", SEgetLastErrorMsg(conn));
+           }
+         }
+
+void
+sedna_xs_rollback(conn)
+     SednaConnection* conn
+     CODE:
+         int ret = SErollback(conn);
+         if (ret != SEDNA_ROLLBACK_TRANSACTION_SUCCEEDED) {
+           if (ret == SEDNA_ROLLBACK_TRANSACTION_FAILED) {
+             croak("SEDNA_ROLLBACK_TRANSACTION_FAILED: %s", SEgetLastErrorMsg(conn));
+           } else {
+             croak("error at SErollback: %s", SEgetLastErrorMsg(conn));
+           }
+         }
+
+int
+sedna_xs_connectionStatus(conn)
+     SednaConnection* conn
+     CODE:
+         RETVAL = SEconnectionStatus(conn);
+     OUTPUT:
+         RETVAL
+
+int
+sedna_xs_transactionStatus(conn)
+     SednaConnection* conn
+     CODE:
+         RETVAL = SEtransactionStatus(conn);
+     OUTPUT:
+         RETVAL
