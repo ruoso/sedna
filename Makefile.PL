@@ -16,8 +16,6 @@ WriteMakefile
       qw( libsedna.mt.o usocket.mt.o uhdd.mt.o
           sp.mt.o uutils.mt.o usecurity.mt.o
           d_printf.mt.o error_codes.mt.o u.mt.o )),
-    depend            => { blibdirs => 'libsedna',
-                           realclean_subdirs => 'libsedna-clean' }
 );
 
 my @names =
@@ -79,8 +77,12 @@ sub MY::postamble {
     return <<MAKE;
 libsedna/driver/c/libsedna.mt.o:
 	make -C libsedna
+MAKE
+}
 
-libsedna-clean:
+sub MY::realclean_subdirs {
+    return <<MAKE;
+realclean_subdirs:
 	make -C libsedna clean
 MAKE
 }

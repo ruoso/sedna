@@ -40,3 +40,4 @@ libsedna/driver/c/libsedna.c
 libsedna/Makefile.platform
 const-c.inc
 const-xs.inc
+typemap
