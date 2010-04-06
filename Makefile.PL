@@ -10,8 +10,14 @@ WriteMakefile
     AUTHOR            => 'Daniel Ruoso <daniel@ruoso.com>',
     LIBS              => [],
     DEFINE            => '',
-    INC               => '-I. -Ilibsedna/driver/c'
-    OBJECT            => '',
+    INC               => '-I. -Ilibsedna/driver/c',
+    OBJECT            =>
+    join(' ', 'Sedna.o', map { 'libsedna/driver/c/'.$_ }
+      qw( libsedna.mt.o usocket.mt.o uhdd.mt.o
+          sp.mt.o uutils.mt.o usecurity.mt.o
+          d_printf.mt.o error_codes.mt.o u.mt.o )),
+    depend            => { blibdirs => 'libsedna',
+                           realclean_subdirs => 'libsedna-clean' }
 );
 
 my @names =
@@ -69,3 +75,12 @@ ExtUtils::Constant::WriteConstants
     XS_FILE      => 'const-xs.inc',
   );
 
+sub MY::postamble {
+    return <<MAKE;
+libsedna/driver/c/libsedna.mt.o:
+	make -C libsedna
+
+libsedna-clean:
+	make -C libsedna clean
+MAKE
+}

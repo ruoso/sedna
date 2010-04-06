@@ -21,6 +21,50 @@ typedef double NV; /* 5.6 and later define NVTYPE, and typedef NV to it.  */
 #endif
 
 static int
+constant_14 (pTHX_ const char *name, IV *iv_return) {
+  /* When generated this function returned values for the list of names given
+     here.  However, subsequent manual editing may have added or removed some.
+     SEDNA_DEBUG_ON SEDNA_LOG_FULL SEDNA_LOG_LESS */
+  /* Offset 10 gives the best switch position.  */
+  switch (name[10]) {
+  case 'F':
+    if (memEQ(name, "SEDNA_LOG_FULL", 14)) {
+    /*                         ^          */
+#ifdef SEDNA_LOG_FULL
+      *iv_return = SEDNA_LOG_FULL;
+      return PERL_constant_ISIV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'G':
+    if (memEQ(name, "SEDNA_DEBUG_ON", 14)) {
+    /*                         ^          */
+#ifdef SEDNA_DEBUG_ON
+      *iv_return = SEDNA_DEBUG_ON;
+      return PERL_constant_ISIV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 'L':
+    if (memEQ(name, "SEDNA_LOG_LESS", 14)) {
+    /*                         ^          */
+#ifdef SEDNA_LOG_LESS
+      *iv_return = SEDNA_LOG_LESS;
+      return PERL_constant_ISIV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  }
+  return PERL_constant_NOTFOUND;
+}
+
+static int
 constant_19 (pTHX_ const char *name, IV *iv_return) {
   /* When generated this function returned values for the list of names given
      here.  However, subsequent manual editing may have added or removed some.
@@ -336,17 +380,18 @@ my @names = (qw(BULK_LOAD_PORTION QUERY_EXECUTION_TIME
 	       SEDNA_COMMIT_TRANSACTION_FAILED
 	       SEDNA_COMMIT_TRANSACTION_SUCCEEDED SEDNA_CONNECTION_CLOSED
 	       SEDNA_CONNECTION_FAILED SEDNA_CONNECTION_OK
-	       SEDNA_DATA_CHUNK_LOADED SEDNA_ERROR
-	       SEDNA_GET_ATTRIBUTE_SUCCEEDED SEDNA_NEXT_ITEM_FAILED
-	       SEDNA_NEXT_ITEM_SUCCEEDED SEDNA_NO_ITEM SEDNA_NO_TRANSACTION
-	       SEDNA_OPEN_SESSION_FAILED SEDNA_OPERATION_SUCCEEDED
-	       SEDNA_QUERY_FAILED SEDNA_QUERY_SUCCEEDED
+	       SEDNA_DATA_CHUNK_LOADED SEDNA_DEBUG_OFF SEDNA_DEBUG_ON
+	       SEDNA_ERROR SEDNA_GET_ATTRIBUTE_SUCCEEDED SEDNA_LOG_FULL
+	       SEDNA_LOG_LESS SEDNA_NEXT_ITEM_FAILED SEDNA_NEXT_ITEM_SUCCEEDED
+	       SEDNA_NO_ITEM SEDNA_NO_TRANSACTION SEDNA_OPEN_SESSION_FAILED
+	       SEDNA_OPERATION_SUCCEEDED SEDNA_QUERY_FAILED
+	       SEDNA_QUERY_SUCCEEDED SEDNA_READONLY_TRANSACTION
 	       SEDNA_RESET_ATTRIBUTES_SUCCEEDED SEDNA_RESULT_END
 	       SEDNA_ROLLBACK_TRANSACTION_FAILED
 	       SEDNA_ROLLBACK_TRANSACTION_SUCCEEDED SEDNA_SESSION_CLOSED
 	       SEDNA_SESSION_OPEN SEDNA_SET_ATTRIBUTE_SUCCEEDED
 	       SEDNA_TRANSACTION_ACTIVE SEDNA_UPDATE_FAILED
-	       SEDNA_UPDATE_SUCCEEDED));
+	       SEDNA_UPDATE_SUCCEEDED SEDNA_UPDATE_TRANSACTION));
 
 print constant_types(), "\n"; # macro defs
 foreach (C_constant ("Sedna", 'constant', 'IV', $types, undef, 3, @names) ) {
@@ -372,6 +417,19 @@ __END__
     if (memEQ(name, "SEDNA_NO_ITEM", 13)) {
 #ifdef SEDNA_NO_ITEM
       *iv_return = SEDNA_NO_ITEM;
+      return PERL_constant_ISIV;
+#else
+      return PERL_constant_NOTDEF;
+#endif
+    }
+    break;
+  case 14:
+    return constant_14 (aTHX_ name, iv_return);
+    break;
+  case 15:
+    if (memEQ(name, "SEDNA_DEBUG_OFF", 15)) {
+#ifdef SEDNA_DEBUG_OFF
+      *iv_return = SEDNA_DEBUG_OFF;
       return PERL_constant_ISIV;
 #else
       return PERL_constant_NOTDEF;
@@ -450,26 +508,64 @@ __END__
     return constant_23 (aTHX_ name, iv_return);
     break;
   case 24:
-    if (memEQ(name, "SEDNA_TRANSACTION_ACTIVE", 24)) {
+    /* Names all of length 24.  */
+    /* SEDNA_TRANSACTION_ACTIVE SEDNA_UPDATE_TRANSACTION */
+    /* Offset 6 gives the best switch position.  */
+    switch (name[6]) {
+    case 'T':
+      if (memEQ(name, "SEDNA_TRANSACTION_ACTIVE", 24)) {
+      /*                     ^                        */
 #ifdef SEDNA_TRANSACTION_ACTIVE
-      *iv_return = SEDNA_TRANSACTION_ACTIVE;
-      return PERL_constant_ISIV;
+        *iv_return = SEDNA_TRANSACTION_ACTIVE;
+        return PERL_constant_ISIV;
 #else
-      return PERL_constant_NOTDEF;
+        return PERL_constant_NOTDEF;
 #endif
+      }
+      break;
+    case 'U':
+      if (memEQ(name, "SEDNA_UPDATE_TRANSACTION", 24)) {
+      /*                     ^                        */
+#ifdef SEDNA_UPDATE_TRANSACTION
+        *iv_return = SEDNA_UPDATE_TRANSACTION;
+        return PERL_constant_ISIV;
+#else
+        return PERL_constant_NOTDEF;
+#endif
+      }
+      break;
     }
     break;
   case 25:
     return constant_25 (aTHX_ name, iv_return);
     break;
   case 26:
-    if (memEQ(name, "SEDNA_CLOSE_SESSION_FAILED", 26)) {
+    /* Names all of length 26.  */
+    /* SEDNA_CLOSE_SESSION_FAILED SEDNA_READONLY_TRANSACTION */
+    /* Offset 15 gives the best switch position.  */
+    switch (name[15]) {
+    case 'S':
+      if (memEQ(name, "SEDNA_CLOSE_SESSION_FAILED", 26)) {
+      /*                              ^                 */
 #ifdef SEDNA_CLOSE_SESSION_FAILED
-      *iv_return = SEDNA_CLOSE_SESSION_FAILED;
-      return PERL_constant_ISIV;
+        *iv_return = SEDNA_CLOSE_SESSION_FAILED;
+        return PERL_constant_ISIV;
 #else
-      return PERL_constant_NOTDEF;
+        return PERL_constant_NOTDEF;
 #endif
+      }
+      break;
+    case 'T':
+      if (memEQ(name, "SEDNA_READONLY_TRANSACTION", 26)) {
+      /*                              ^                 */
+#ifdef SEDNA_READONLY_TRANSACTION
+        *iv_return = SEDNA_READONLY_TRANSACTION;
+        return PERL_constant_ISIV;
+#else
+        return PERL_constant_NOTDEF;
+#endif
+      }
+      break;
     }
     break;
   case 27:
