@@ -270,10 +270,11 @@ sedna_xs_transactionStatus(conn)
          RETVAL
 
 void
-sedna_xs_execute(conn, query)
+sedna_xs_execute(conn, svquery)
      SednaConnection* conn
-     char* query
+     SV* svquery
      CODE:
+         char* query = SvPVutf8_nolen(svquery);
          int ret = SEexecute(conn, query);
          if (ret != SEDNA_QUERY_SUCCEEDED &&
              ret != SEDNA_UPDATE_SUCCEEDED &&
@@ -335,6 +336,7 @@ sedna_xs_getData(conn, svbuff, reqlen)
      SV* svbuff
      int reqlen
      CODE:
+         SvUTF8_on(svbuff);
          char* buff = SvGROW(svbuff, reqlen+10);
          int ret = SEgetData(conn, buff, reqlen);
          if (ret < 0) {
@@ -353,10 +355,10 @@ sedna_xs_loadData(conn, svbuff, docname, svcolname)
      SV* svcolname
      CODE:
          int svlen;
-         char* buff = SvPV(svbuff, svlen);
+         char* buff = SvPVutf8(svbuff, svlen);
          char* colname = NULL;
          if (SvOK(svcolname)) {
-            colname = SvPV_nolen(svcolname);
+            colname = SvPVutf8_nolen(svcolname);
          }
          int ret = SEloadData(conn, buff, svlen, docname, colname);
          if (ret != SEDNA_DATA_CHUNK_LOADED) {
