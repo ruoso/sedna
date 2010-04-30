@@ -5,8 +5,10 @@
 #include "ppport.h"
 
 #include <libsedna.h>
-
+#include <string.h>
 #include "const-c.inc"
+
+#define BUFFER_LENGTH 512
 
 typedef struct SednaConnection SednaConnection;
 
@@ -330,13 +332,44 @@ sedna_xs_next(conn)
      OUTPUT:
          RETVAL
 
+SV*
+sedna_xs_getItem(conn)
+     SednaConnection* conn
+     CODE:
+         char buffer[BUFFER_LENGTH];
+         char* result;
+         int curlen;
+         int ret;
+         while (ret = SEgetData(conn, buffer, BUFFER_LENGTH)) {
+             if (ret < 0) {
+                 croak("error at SEgetData: %s", SEgetLastErrorMsg(conn));
+             } else if (ret == 0) {
+                 break;
+             } else {
+                 result = realloc(result, curlen + ret);
+                 if (!result) {
+                    croak("error alocating memory for xml.\n");
+                 }
+                 memcpy((char*)((int)result + curlen), buffer, ret); 
+                 curlen += ret;
+             }
+         }
+         if (result) {
+             RETVAL = &PL_sv_undef;
+         } else {
+             RETVAL = newSVpvn(result, curlen);
+             SvUTF8_on(RETVAL);
+         }
+     OUTPUT:
+         RETVAL
+
 int
 sedna_xs_getData(conn, svbuff, reqlen)
      SednaConnection* conn
      SV* svbuff
      int reqlen
      CODE:
-         SvUTF8_on(svbuff);
+         SvUTF8_off(svbuff);
          char* buff = SvGROW(svbuff, reqlen+10);
          int ret = SEgetData(conn, buff, reqlen);
          if (ret < 0) {

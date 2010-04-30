@@ -228,10 +228,17 @@ return.
 Returns true if there is another value available, and advance the
 cursor.
 
+=item $conn->getItem( )
+
+Returns the XML content for the current item in this connection (must
+be called after next.
+
 =item $conn->getData($buf, $len)
 
 Works like the read function, storing up to the requested length into
-the scalar buffer.
+the scalar buffer. Notice that this function will return octets, not
+characters, so you should deal with encoding yourself (including
+incomplete utf-8 characters).
 
 =item $conn->loadData($xml, $doc, $coll)
 
