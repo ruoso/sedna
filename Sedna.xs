@@ -337,9 +337,9 @@ sedna_xs_getItem(conn)
      SednaConnection* conn
      CODE:
          char buffer[BUFFER_LENGTH];
-         char* result;
-         int curlen;
-         int ret;
+         char* result = NULL;
+         int curlen = 0;
+         int ret = 0;
          while (ret = SEgetData(conn, buffer, BUFFER_LENGTH)) {
              if (ret < 0) {
                  croak("error at SEgetData: %s", SEgetLastErrorMsg(conn));
@@ -355,10 +355,12 @@ sedna_xs_getItem(conn)
              }
          }
          if (result) {
-             RETVAL = &PL_sv_undef;
+             SV* svret = newSVpvn(result, curlen);
+             SvUTF8_on(svret);
+             RETVAL = svret;
+             free(result);
          } else {
-             RETVAL = newSVpvn(result, curlen);
-             SvUTF8_on(RETVAL);
+             RETVAL = &PL_sv_undef;
          }
      OUTPUT:
          RETVAL
