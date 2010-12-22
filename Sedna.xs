@@ -350,7 +350,7 @@ sedna_xs_getItem(conn)
                  if (!result) {
                     croak("error alocating memory for xml.\n");
                  }
-                 memcpy((char*)((int)result + curlen), buffer, ret); 
+                 memcpy((char*)((uintptr_t)result + curlen), buffer, ret); 
                  curlen += ret;
              }
          }

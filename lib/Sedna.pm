@@ -60,7 +60,7 @@ our %EXPORT_TAGS =
        ) ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-our $VERSION = 0.003;
+our $VERSION = 0.004;
 sub AUTOLOAD {
     # This AUTOLOAD is used to 'autoload' constants from the constant()
     # XS function.
