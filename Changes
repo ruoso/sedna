@@ -1,6 +1,10 @@
 Revision history for Perl extension Sedna.
 
-0.01  Thu Jan 14 11:42:29 2010
+0.003  Wed Dec 22 10:42:10 2010
+        - No longer bundles the Sedna C driver, but uses
+          the one shipped with Sedna instead.
+
+0.002  Thu Jan 14 11:42:29 2010
 	- original version; created by h2xs 1.23 with options
 		/usr/lib/sedna/driver/c/libsedna.h
 
