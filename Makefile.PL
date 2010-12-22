@@ -5,17 +5,14 @@ use ExtUtils::Constant;
 WriteMakefile
   ( NAME              => 'Sedna',
     VERSION_FROM      => 'lib/Sedna.pm',
-    PREREQ_PM         => {},
+    BUILD_REQUIRES    => { Alien::Sedna => 0 },
     ABSTRACT_FROM     => 'lib/Sedna.pm',
     AUTHOR            => 'Daniel Ruoso <daniel@ruoso.com>',
-    LIBS              => [],
+    dynamic_lib       =>
+    {  OTHERLDFLAGS   => '-L/usr/local/sedna/driver/c -lsedna' },
     DEFINE            => '',
-    INC               => '-I. -Ilibsedna/driver/c',
-    OBJECT            =>
-    join(' ', 'Sedna.o', map { 'libsedna/driver/c/'.$_ }
-      qw( libsedna.mt.o usocket.mt.o uhdd.mt.o
-          sp.mt.o uutils.mt.o usecurity.mt.o
-          d_printf.mt.o error_codes.mt.o u.mt.o )),
+    INC               => '-I. -I/usr/local/sedna/driver/c',
+    OBJECT            => 'Sedna.o'
 );
 
 my @names =
@@ -72,17 +69,3 @@ ExtUtils::Constant::WriteConstants
     C_FILE       => 'const-c.inc',
     XS_FILE      => 'const-xs.inc',
   );
-
-sub MY::postamble {
-    return <<MAKE;
-libsedna/driver/c/libsedna.mt.o:
-	make -C libsedna
-MAKE
-}
-
-sub MY::realclean_subdirs {
-    return <<MAKE;
-realclean_subdirs:
-	make -C libsedna clean
-MAKE
-}
